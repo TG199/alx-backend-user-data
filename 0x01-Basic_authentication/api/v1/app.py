@@ -23,6 +23,7 @@ if auth_type == 'auth':
 
 @app.before_request
 def before_request_handler():
+    """Before reqest method"""
     if auth is None:
         return
 
