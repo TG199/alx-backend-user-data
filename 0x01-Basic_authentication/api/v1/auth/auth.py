@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-""" Basic auth module"""
+""" Base Auth module"""
 from typing import List, TypeVar
 from flask import request
 
