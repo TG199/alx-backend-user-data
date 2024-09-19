@@ -4,5 +4,5 @@ from auth import Auth
 
 
 class BasiAuth(Auth):
-    """ Basic Auth class"""
+    """ BasicAuth class that inherits from Auth """
     pass
