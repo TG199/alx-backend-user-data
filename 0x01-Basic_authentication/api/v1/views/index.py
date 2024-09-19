@@ -30,3 +30,9 @@ def stats() -> str:
 def unauthorized_test():
     """Route to trigger a 401 error for testing purposes."""
     abort(401)
+
+
+@app_views.route('/api/v1/forbidden', methods=['GET'], strict_slashes=False)
+def forbidden_test():
+    """Route to trigger a 403 error for testing purposes."""
+    abort(403)
