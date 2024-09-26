@@ -5,6 +5,8 @@ from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.session import Session
+from sqlalchemy.orm.exc import NoResultFound
+from sqlalchemy.exc import InvalidRequestError
 
 from user import Base, User
 
@@ -46,3 +48,29 @@ class DB:
         self._session.commit()
 
         return new_user
+
+    def find_user_by(self, **kwargs) -> User:
+        """Find the first user based on arbitrary keyword arguments
+
+        Args:
+            **kwargs: Arbitrary keyword arguments for filtering the query
+
+        Returns:
+            User: The first User object matching the criteria
+
+        Raises:
+            NoResultFound: If no user is found
+            InvalidRequestError: If invalid query arguments are passed
+        """
+        try:
+            user = self._session.query(User).filter_by(**kwargs).first()
+
+            if user is None:
+                raise NoResultFound
+
+            return user
+
+        except InvalidRequestError:
+            raise InvalidRequestError("Invalid query argument")
+        except NoResultFound:
+            raise NoResultFound("No user found with the provided filters")
