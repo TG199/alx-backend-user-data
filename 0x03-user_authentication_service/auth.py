@@ -1,7 +1,7 @@
 import uuid
 import bcrypt
 from db import DB
-from sqlalchemy.orm.exc import NoResultFound
+from sqlalchemy.orm.exc import NoResultFound, InvalidRequestError
 from user import User
 
 
@@ -115,3 +115,20 @@ class Auth:
             return user
         except NoResultFound:
             return None
+
+    def destroy_session(self, user_id: int):
+        """Destroy the user's session by setting session_id to None.
+
+        Args:
+            user_id (int): The ID of the user whose session is to be destroyed.
+
+        Returns:
+            None
+        """
+        try:
+            # Update the user's session ID to None
+            self._db.update_user(user_id, session_id=None)
+        except (NoResultFound, InvalidRequestError) as e:
+            # Handle cases where the user_id does not exist or other errors
+            raise ValueError(f"Error updating session \
+                             for user ID {user_id}: {e}")
