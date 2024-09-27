@@ -1,3 +1,4 @@
+import uuid
 import bcrypt
 from db import DB
 from sqlalchemy.orm.exc import NoResultFound
@@ -66,3 +67,13 @@ class Auth:
         except NoResultFound:
             return False
         return False
+
+    def _generate_uuid() -> str:
+        """Generates a new UUID and returns its string representation.
+
+        This method is private to the auth module.
+
+        Returns:
+            str: String representation of a UUID.
+        """
+        return str(uuid.uuid4())
